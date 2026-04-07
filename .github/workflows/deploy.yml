@@ -24,30 +24,29 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Hostinger via FTP
+      - name: Deploy via SSH
         run: |
-          sudo apt-get install -y lftp > /dev/null 2>&1
-          echo "=== Checking FTP structure ==="
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
-          set ssl:verify-certificate no;
-          set ftp:ssl-allow yes;
-          set ftp:ssl-force no;
-          set ftp:passive-mode yes;
-          pwd;
-          echo '--- ROOT ---';
-          cls;
-          echo '--- PUBLIC_HTML ---';
-          cls public_html/;
-          quit" || true
+          sudo apt-get install -y sshpass > /dev/null 2>&1
+
+          echo "=== Exploring directory structure ==="
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 65002 "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" "
+            echo '--- HOME ---';
+            pwd;
+            ls -la;
+            echo '--- PUBLIC_HTML ---';
+            ls -la public_html/;
+            echo '--- DOMAINS ---';
+            ls -la domains/ 2>/dev/null || echo 'no domains dir';
+            ls -la domains/ilabgroup.in/public_html/ 2>/dev/null || echo 'no domains/ilabgroup.in/public_html';
+          "
 
           echo "=== Deploying files ==="
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
-          set ssl:verify-certificate no;
-          set ftp:ssl-allow yes;
-          set ftp:ssl-force no;
-          set ftp:passive-mode yes;
-          cd public_html;
-          glob -a rm -f *;
-          glob -a rm -rf */;
-          mirror -R --verbose --no-perms dist/ .;
-          quit"
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 65002 "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" "
+            rm -f public_html/default.php;
+            rm -f public_html/.default.php;
+          "
+
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 65002" ./dist/ "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}:public_html/"
+
+          echo "=== Verifying deployment ==="
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 65002 "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" "ls -la public_html/"
