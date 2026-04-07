@@ -24,12 +24,30 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Debug FTP and Deploy
+      - name: Deploy to Hostinger via FTP
         run: |
           sudo apt-get install -y lftp > /dev/null 2>&1
-          echo "=== FTP ROOT ==="
-          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; set ftp:ssl-allow yes; ls; quit" 2>&1 || echo "Root failed"
-          echo "=== PUBLIC_HTML ==="
-          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; set ftp:ssl-allow yes; cd public_html; ls; quit" 2>&1 || echo "public_html failed"
-          echo "=== PWD ==="
-          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; set ftp:ssl-allow yes; pwd; quit" 2>&1 || echo "pwd failed"
+          echo "=== Checking FTP structure ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
+          set ssl:verify-certificate no;
+          set ftp:ssl-allow yes;
+          set ftp:ssl-force no;
+          set ftp:passive-mode yes;
+          pwd;
+          echo '--- ROOT ---';
+          cls;
+          echo '--- PUBLIC_HTML ---';
+          cls public_html/;
+          quit" || true
+
+          echo "=== Deploying files ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
+          set ssl:verify-certificate no;
+          set ftp:ssl-allow yes;
+          set ftp:ssl-force no;
+          set ftp:passive-mode yes;
+          cd public_html;
+          glob -a rm -f *;
+          glob -a rm -rf */;
+          mirror -R --verbose --no-perms dist/ .;
+          quit"
