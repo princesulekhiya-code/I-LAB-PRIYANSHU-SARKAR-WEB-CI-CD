@@ -57,7 +57,7 @@ const MapSection = () => (
           {/* Map */}
           <div className="lg:col-span-3 rounded-2xl overflow-hidden shadow-industrial border border-border min-h-[400px]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.5!2d77.4374!3d23.2099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c428f8fd68fbd%3A0x2155716d572d4f8!2sSaket%20Nagar%2C%20Bhopal%2C%20Madhya%20Pradesh%20462024!5e0!3m2!1sen!2sin!4v1700000000000"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1000!2d77.4548443!3d23.2072808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1700000000000"
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: 400 }}
