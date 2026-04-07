@@ -24,12 +24,12 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ./domains/ilabgroup.in/public_html/
-          dangerous-clean-slate: true
+      - name: Debug FTP and Deploy
+        run: |
+          sudo apt-get install -y lftp > /dev/null 2>&1
+          echo "=== FTP ROOT ==="
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; set ftp:ssl-allow yes; ls; quit" 2>&1 || echo "Root failed"
+          echo "=== PUBLIC_HTML ==="
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; set ftp:ssl-allow yes; cd public_html; ls; quit" 2>&1 || echo "public_html failed"
+          echo "=== PWD ==="
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; set ftp:ssl-allow yes; pwd; quit" 2>&1 || echo "pwd failed"
