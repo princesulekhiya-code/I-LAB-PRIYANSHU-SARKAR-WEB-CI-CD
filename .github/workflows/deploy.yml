@@ -24,26 +24,23 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy via SFTP
+      - name: Find correct path via FTP
         run: |
-          sudo apt-get install -y sshpass > /dev/null 2>&1
+          sudo apt-get install -y lftp > /dev/null 2>&1
+          echo "=== Finding default.php location ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
+          set ssl:verify-certificate no;
+          set ftp:ssl-allow yes;
+          set ftp:passive-mode yes;
+          set net:timeout 30;
+          find . | grep -i default;
+          quit" || true
 
-          echo "=== Listing directories ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" sftp -P 65002 -o StrictHostKeyChecking=no "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" <<'EOF'
-          pwd
-          ls
-          ls public_html
-          EOF
-
-          echo "=== Removing default.php ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" sftp -P 65002 -o StrictHostKeyChecking=no "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" <<'EOF'
-          rm public_html/default.php
-          EOF
-
-          echo "=== Uploading files ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" scp -P 65002 -o StrictHostKeyChecking=no -r ./dist/* "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}:public_html/"
-
-          echo "=== Verifying ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" sftp -P 65002 -o StrictHostKeyChecking=no "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" <<'EOF'
-          ls public_html
-          EOF
+          echo "=== Full recursive listing ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
+          set ssl:verify-certificate no;
+          set ftp:ssl-allow yes;
+          set ftp:passive-mode yes;
+          set net:timeout 30;
+          find . -d 3;
+          quit" || true
