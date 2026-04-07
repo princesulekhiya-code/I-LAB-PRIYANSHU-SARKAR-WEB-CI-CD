@@ -24,16 +24,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: List FTP directories
-        run: |
-          curl -s --list-only ftp://${{ secrets.FTP_HOST }}/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }} || echo "Root listing failed"
-          echo "--- public_html ---"
-          curl -s --list-only ftp://${{ secrets.FTP_HOST }}/public_html/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }} || echo "public_html listing failed"
-          echo "--- domains ---"
-          curl -s --list-only ftp://${{ secrets.FTP_HOST }}/domains/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }} || echo "domains listing failed"
-          echo "--- domains/ilabgroup.in ---"
-          curl -s --list-only ftp://${{ secrets.FTP_HOST }}/domains/ilabgroup.in/public_html/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }} || echo "domains/ilabgroup.in listing failed"
-
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -41,5 +31,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./public_html/
+          server-dir: ./
           dangerous-clean-slate: true
