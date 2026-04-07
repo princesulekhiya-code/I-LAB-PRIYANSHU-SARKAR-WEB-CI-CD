@@ -24,29 +24,33 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy via SSH
+      - name: Deploy via SFTP
         run: |
-          sudo apt-get install -y sshpass > /dev/null 2>&1
+          sudo apt-get install -y lftp > /dev/null 2>&1
 
-          echo "=== Exploring directory structure ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 65002 "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" "
-            echo '--- HOME ---';
-            pwd;
-            ls -la;
-            echo '--- PUBLIC_HTML ---';
-            ls -la public_html/;
-            echo '--- DOMAINS ---';
-            ls -la domains/ 2>/dev/null || echo 'no domains dir';
-            ls -la domains/ilabgroup.in/public_html/ 2>/dev/null || echo 'no domains/ilabgroup.in/public_html';
-          "
+          echo "=== Exploring SFTP directory ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" sftp://${{ secrets.FTP_HOST }}:65002 -e "
+          set sftp:auto-confirm yes;
+          set net:timeout 30;
+          set net:max-retries 3;
+          pwd;
+          ls;
+          echo '--- public_html ---';
+          ls public_html/;
+          quit" || true
 
-          echo "=== Deploying files ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 65002 "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" "
-            rm -f public_html/default.php;
-            rm -f public_html/.default.php;
-          "
+          echo "=== Deploying files via SFTP ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" sftp://${{ secrets.FTP_HOST }}:65002 -e "
+          set sftp:auto-confirm yes;
+          set net:timeout 60;
+          set net:max-retries 3;
+          cd public_html;
+          rm -f default.php;
+          mirror -R --verbose --delete --no-perms ./dist/ .;
+          quit"
 
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 65002" ./dist/ "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}:public_html/"
-
-          echo "=== Verifying deployment ==="
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 65002 "${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_HOST }}" "ls -la public_html/"
+          echo "=== Verifying ==="
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" sftp://${{ secrets.FTP_HOST }}:65002 -e "
+          set sftp:auto-confirm yes;
+          ls public_html/;
+          quit"
