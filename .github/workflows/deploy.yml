@@ -24,23 +24,14 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Find correct path via FTP
+      - name: Deploy built files to deploy branch
         run: |
-          sudo apt-get install -y lftp > /dev/null 2>&1
-          echo "=== Finding default.php location ==="
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
-          set ssl:verify-certificate no;
-          set ftp:ssl-allow yes;
-          set ftp:passive-mode yes;
-          set net:timeout 30;
-          find . | grep -i default;
-          quit" || true
-
-          echo "=== Full recursive listing ==="
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" -e "
-          set ssl:verify-certificate no;
-          set ftp:ssl-allow yes;
-          set ftp:passive-mode yes;
-          set net:timeout 30;
-          find . -d 3;
-          quit" || true
+          cd dist
+          git init
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git commit -m "Deploy: $(date +'%Y-%m-%d %H:%M:%S')"
+          git branch -M deploy
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push -f origin deploy
