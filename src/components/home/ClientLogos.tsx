@@ -1,25 +1,16 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { Reveal } from "@/hooks/use-scroll-reveal";
-import logoBmhrc from "@/assets/logo-bmhrc.png";
-import logoIcarNihsad from "@/assets/logo-icar-nihsad.png";
-import logoCsirAmpri from "@/assets/logo-csir-ampri.png";
-import logoIcarIiss from "@/assets/logo-icar-iiss.png";
-import logoBhel from "@/assets/logo-bhel.png";
-import logoGsi from "@/assets/logo-gsi.png";
-import logoRgpv from "@/assets/logo-rgpv.png";
-import logoLnct from "@/assets/logo-lnct.png";
-import logoCes from "@/assets/logo-ces.png";
 
 const clients = [
-  { name: "Bhopal Memorial Hospital", logo: logoBmhrc },
-  { name: "ICAR - NIHSAD", logo: logoIcarNihsad },
-  { name: "CSIR - AMPRI", logo: logoCsirAmpri },
-  { name: "ICAR - IISS", logo: logoIcarIiss },
-  { name: "BHEL Bhopal", logo: logoBhel },
-  { name: "Geological Survey of India", logo: logoGsi },
-  { name: "RGPV University", logo: logoRgpv },
-  { name: "LNCT University", logo: logoLnct },
-  { name: "CES Analytical", logo: logoCes },
+  { name: "Bhopal Memorial Hospital" },
+  { name: "ICAR - NIHSAD" },
+  { name: "CSIR - AMPRI" },
+  { name: "ICAR - IISS" },
+  { name: "BHEL Bhopal" },
+  { name: "Geological Survey of India" },
+  { name: "RGPV University" },
+  { name: "LNCT University" },
+  { name: "CES Analytical" },
 ];
 
 const ClientLogos = () => {
@@ -89,9 +80,8 @@ const ClientLogos = () => {
             onMouseLeave={handleMouseUp}
           >
             {allClients.map((client, i) => (
-              <div key={`${client.name}-${i}`} className="shrink-0 flex items-center gap-4 px-6 py-4 rounded-xl border border-border/60 bg-card/80 hover:border-primary/20 hover:shadow-card transition-all duration-300 select-none">
-                <img src={client.logo} alt={client.name} loading="lazy" width={48} height={48} className="w-12 h-12 object-contain shrink-0 pointer-events-none" />
-                <span className="text-sm font-medium text-foreground whitespace-nowrap">{client.name}</span>
+              <div key={`${client.name}-${i}`} className="shrink-0 flex items-center px-8 py-4 rounded-xl border border-border/60 bg-card/80 hover:border-primary/20 hover:shadow-card transition-all duration-300 select-none">
+                <span className="text-sm font-semibold text-foreground whitespace-nowrap">{client.name}</span>
               </div>
             ))}
           </div>
