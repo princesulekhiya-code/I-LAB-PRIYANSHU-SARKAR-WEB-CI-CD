@@ -68,7 +68,7 @@ const galleryItems: { src: string; title: string; desc: string; cat: Category }[
 ];
 
 const Gallery = () => {
-  usePageSEO({ title: "Factory & Production Gallery", description: "See our manufacturing facility, lab equipment, water treatment plants & clean room installations in action." });
+  usePageSEO({ title: "Lab Equipment Manufacturing Gallery & Factory Tour", description: "View I-Lab's manufacturing facility, laboratory equipment production, water treatment plant fabrication & clean room installations. Real project photos from Bhopal factory.", keywords: "lab equipment factory Bhopal, manufacturing gallery, water treatment plant images, clean room installation photos, laboratory equipment production India", canonical: "https://ilabgroup.in/gallery" });
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<Category>("all");
   const filtered = activeCategory === "all" ? galleryItems : galleryItems.filter((i) => i.cat === activeCategory);

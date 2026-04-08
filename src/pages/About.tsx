@@ -35,7 +35,7 @@ const whyUs = [
 ];
 
 const About = () => {
-  usePageSEO({ title: "About Us", description: "I-Lab - Premier manufacturer of laboratory equipment, water treatment plants & clean room systems since 2009 in Bhopal." });
+  usePageSEO({ title: "About I-Lab - Laboratory Equipment Manufacturer Since 2009", description: "I-Lab is a premier manufacturer of laboratory equipment, water treatment plants, clean room systems & laminar airflow units in Bhopal, Madhya Pradesh since 2009. Trusted by BMHRC, ICAR, CSIR, BHEL & 500+ organizations.", keywords: "about I-Lab Bhopal, laboratory equipment company India, lab equipment manufacturer history, clean room company Bhopal, water treatment company Madhya Pradesh", canonical: "https://ilabgroup.in/about" });
   return (
   <Layout>
     <PageHero

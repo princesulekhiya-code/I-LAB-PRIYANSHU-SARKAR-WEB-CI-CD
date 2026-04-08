@@ -65,7 +65,7 @@ const divisions = [
 ];
 
 const Products = () => {
-  usePageSEO({ title: "Our Products", description: "Lab instruments, water treatment plants, clean room equipment & biochemical products by I-Lab Bhopal." });
+  usePageSEO({ title: "Laboratory Equipment & Water Treatment Plant Products", description: "Buy laboratory instruments, water treatment plants (ETP/STP/RO), clean room equipment, laminar airflow units & biochemical products from I-Lab Bhopal. Best quality, competitive prices.", keywords: "buy laboratory equipment Bhopal, water treatment plant price, clean room equipment India, laminar airflow unit price, lab instruments Bhopal, ETP plant manufacturer, STP plant manufacturer, RO plant Bhopal, biochemical products, lab furniture price", canonical: "https://ilabgroup.in/products" });
   const [enquiryProduct, setEnquiryProduct] = useState<string | null>(null);
 
   return (

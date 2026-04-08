@@ -27,7 +27,7 @@ const steps = [
 ];
 
 const Solutions = () => {
-  usePageSEO({ title: "Engineering Solutions", description: "Turnkey lab setup, water treatment systems, clean rooms & mushroom production solutions by I-Lab Bhopal." });
+  usePageSEO({ title: "Turnkey Lab Setup & Water Treatment Solutions Bhopal", description: "Complete turnkey laboratory setup, water treatment systems, clean room solutions & mushroom spawn production lab solutions by I-Lab Bhopal. End-to-end engineering for government & private sector.", keywords: "turnkey lab setup India, water treatment solutions Bhopal, clean room solutions Madhya Pradesh, mushroom spawn production lab, complete lab solutions, ETP STP solutions, engineering solutions Bhopal", canonical: "https://ilabgroup.in/solutions" });
   return (
   <Layout>
     <PageHero

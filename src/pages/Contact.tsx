@@ -7,7 +7,7 @@ import SectionHeading from "@/components/SectionHeading";
 import heroContactImg from "@/assets/hero-contact.jpg";
 
 const Contact = () => {
-  usePageSEO({ title: "Contact Us", description: "Get a custom manufacturing quote from I-Lab Bhopal. Call +91 8120120714 or visit us at Saket Nagar, Bhopal." });
+  usePageSEO({ title: "Contact I-Lab - Lab Equipment Manufacturer Bhopal", description: "Contact I-Lab for laboratory equipment, water treatment plants & clean room systems. Call +91 8120120714, email ilabbhopal@gmail.com. Visit: 312/9A Saket Nagar, Near AIIMS, Bhopal 462024.", keywords: "contact lab equipment manufacturer Bhopal, I-Lab phone number, lab equipment supplier contact, water treatment plant inquiry Bhopal, I-Lab address Saket Nagar", canonical: "https://ilabgroup.in/contact" });
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 

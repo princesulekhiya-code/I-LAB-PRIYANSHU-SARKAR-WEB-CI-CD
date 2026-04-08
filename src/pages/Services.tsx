@@ -25,7 +25,7 @@ const services = [
 ];
 
 const Services = () => {
-  usePageSEO({ title: "Manufacturing & Engineering Services", description: "Custom lab equipment manufacturing, water treatment plant fabrication, clean room installation & AMC services by I-Lab Bhopal." });
+  usePageSEO({ title: "Lab Equipment Manufacturing & Engineering Services Bhopal", description: "Custom laboratory equipment manufacturing, water treatment plant fabrication, clean room installation, laminar airflow systems & AMC services by I-Lab Bhopal. Turnkey solutions for labs across India.", keywords: "lab equipment manufacturing services, water treatment plant fabrication Bhopal, clean room installation India, laminar airflow installation, AMC services lab equipment, turnkey lab setup Bhopal, ETP STP fabrication", canonical: "https://ilabgroup.in/services" });
   return (
   <Layout>
     <PageHero

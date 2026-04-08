@@ -18,7 +18,7 @@ import MapSection from "@/components/home/MapSection";
 import CTASection from "@/components/home/CTASection";
 
 const Index = () => {
-  usePageSEO({ title: "Laboratory Equipment Manufacturer Bhopal", description: "I-Lab - Leading manufacturer of laboratory equipment, furniture, water treatment chemicals & clean room systems in Bhopal since 2009." });
+  usePageSEO({ title: "Laboratory Equipment Manufacturer Bhopal", description: "I-Lab - Leading manufacturer of laboratory equipment, furniture, water treatment plants, chemicals & clean room systems in Bhopal, Madhya Pradesh since 2009. ISO certified, 500+ clients across India.", keywords: "laboratory equipment manufacturer Bhopal, lab equipment supplier India, water treatment plant manufacturer Bhopal, clean room manufacturer Madhya Pradesh, laminar airflow manufacturer, lab furniture Bhopal, ETP STP manufacturer, water treatment chemicals, biochemical production lab, mushroom spawn lab", canonical: "https://ilabgroup.in/" });
   return (
     <Layout>
       <HeroSection />
