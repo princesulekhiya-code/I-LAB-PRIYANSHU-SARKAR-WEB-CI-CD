@@ -11,6 +11,8 @@ const clients = [
   { name: "RGPV University" },
   { name: "LNCT University" },
   { name: "CES Analytical" },
+  { name: "CPCB - MPPCB" },
+  { name: "Fortcaps Healthcare Limited" },
 ];
 
 const ClientLogos = () => {
